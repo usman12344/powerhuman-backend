@@ -30,11 +30,11 @@ class Employee extends Model
 
     public function team()
     {
-        return $this->BelongsTo(Team::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function role()
     {
-        return $this->BelongsTo(Role::class);
+        return $this->belongsTo(Role::class);
     }
 }

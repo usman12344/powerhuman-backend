@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eqloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
@@ -25,7 +25,7 @@ class Role extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function responsibility()
+    public function responsibilities()
     {
         return $this->hasMany(Responsibility::class);
     }

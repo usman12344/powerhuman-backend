@@ -22,6 +22,6 @@ class Responsibility extends Model
 
     public function role()
     {
-        return $this->BelongsTo(Role::class);
+        return $this->belongsTo(Role::class);
     }
 }
