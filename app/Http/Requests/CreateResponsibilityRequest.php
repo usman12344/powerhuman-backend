@@ -25,8 +25,8 @@ class CreateResponsibilityRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'role_id' => 'required|integer|exists:roles,id',
+            'name' => ['required|string|max:255'],
+            'role_id' => ['required|integer|exists:roles,id'],
         ];
     }
 }

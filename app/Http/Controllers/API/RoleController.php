@@ -17,10 +17,16 @@ class RoleController extends Controller
         $id = $request->input('id');
         $name = $request->input('name');
         $limit = $request->input('limit', 10);
+        $company_id = $request->input('company_id');
         $with_responsibilities = $request->input('with_responsibilities', false);
 
-        $roleQuery = Role::query();
+        $roleQuery = Role::withCount('employees');
+        // list all role by user
 
+        // $companies = Role::all();
+
+        $roles = $roleQuery;
+        
         //Get single data 
         if($id)
         {
@@ -31,13 +37,8 @@ class RoleController extends Controller
             }
             return ResponseFormatter::error('Role not found', 404);
         }
-
-        // list all role by user
-        // $companies = Role::with(['users']);
-
-        // list all role by company
-        //Get multiple data
-        $roles = $roleQuery->where('company_id', $request->company_id);
+        
+        
 
         if ($name) {
             $roles->where('name', 'like', '%' . $name . '%');
@@ -47,11 +48,31 @@ class RoleController extends Controller
             $roles->with('responsibilities');
         }
 
+        if($company_id){
+            // list all role by company
+        //Get multiple data
+         $roles = $roleQuery->where('company_id', $request->company_id);
+        }
+
+
+        // if( $roleQuery === '') {
+
+        //     $role = $companies;
+        //     if($role) {
+        //         return ResponseFormatter::success($role, 'Role found');
+        //     }
+        //     return ResponseFormatter::error('Role not found', 404);
+        // }
+
         return ResponseFormatter::success(
             $roles->paginate($limit),
             'roles found'
         );
+
+        
     }
+
+
 
     public function create(CreateRoleRequest $request)
     {

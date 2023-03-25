@@ -23,9 +23,10 @@ class EmployeeController extends Controller
         $phone = $request->input('phone');
         $team_id = $request->input('team_id');
         $role_id = $request->input('role_id');
+        $company_id = $request->input('company_id');
         $limit = $request->input('limit', 10);
 
-        $employeeQuery = Employee::query();
+        $employeeQuery = Employee::with(['team', 'role']);
 
         //Get single data 
         if($id)
@@ -69,6 +70,12 @@ class EmployeeController extends Controller
             $employees->where('role_id',  $role_id);
         }
         
+        if($company_id){
+            $employees->whereHas('team', function ($query) use ($company_id) {
+                $query->where('company_id', $company_id);
+            });
+        }
+        
         return ResponseFormatter::success(
             $employees->paginate($limit),
             'employees found'
@@ -91,7 +98,7 @@ class EmployeeController extends Controller
                 'gender' => $request->gender,
                 'age' => $request->age,
                 'phone' => $request->phone,
-                'photo' => $path,
+                'photo' => isset($path) ? $path : '',
                 'team_id' => $request->team_id,
                 'role_id' => $request->role_id,
             ]);

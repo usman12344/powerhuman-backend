@@ -51,12 +51,26 @@ class ResponsibilityController extends Controller
     {
 
         try {
+
+            // dd($request->all());
+
+            foreach($request->list_respon as $key => $value){
+              $score = array(
+                'name' => $value['name'],
+                'role_id' => $value['role_id']
+              );
+              $responsibility = Responsibility::create($score);
+            }
+
+            // return response()->json([
+            //     'message' => 'success'
+            // ], 200);
     
             //Create responsibility
-            $responsibility = Responsibility::create([
-                'name' => $request->name,
-                'role_id' => $request->role_id,
-            ]);
+            // $responsibility = Responsibility::create([
+            //     'name' => $request->name,
+            //     'role_id' => $request->role_id,
+            // ]);
 
             if(!$responsibility) {
                 throw new Exception('Responsibility not created');
